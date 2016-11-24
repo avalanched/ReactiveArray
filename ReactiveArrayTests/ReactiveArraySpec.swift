@@ -55,7 +55,7 @@ private func waitForOperation<T>(fromArray array: ReactiveArray<T>,
     onUpdate: (T, Int) -> () = { fail("Invalid operation type: .Update(\($0), \($1))") },
     onDelete: Int -> () = { fail("Invalid operation type: .Delete(\($0))") }) {
         
-    waitForOperation(fromSignal: array.signal, when: when, onAppend: onAppend, onInsert: onInsert, onUpdate: onUpdate, onDelete: onDelete)
+    waitForOperation(fromArray: array.signal, when: when, onAppend: onAppend, onInsert: onInsert, onUpdate: onUpdate, onDelete: onDelete)
 }
 
 class ReactiveArraySpec: QuickSpec {
@@ -286,7 +286,7 @@ class ReactiveArraySpec: QuickSpec {
                     let a = ReactiveArray<Int>()
                     
                     waitForOperation(
-                        fromProducer: a.producer,
+                        fromArray: a.producer,
                         when: {
                             a.append(5)
                         },
@@ -304,7 +304,7 @@ class ReactiveArraySpec: QuickSpec {
                     let a = ReactiveArray<Int>(elements: [1])
                     
                     waitForOperation(
-                        fromProducer: a.producer.skip(1), // Skips the operation triggered due to the array not being empty
+                        fromArray: a.producer.skip(1), // Skips the operation triggered due to the array not being empty
                         when: {
                             a.insert(5, atIndex: 0)
                         },
@@ -323,7 +323,7 @@ class ReactiveArraySpec: QuickSpec {
                     let a = ReactiveArray<Int>(elements: [1])
                     
                     waitForOperation(
-                        fromProducer: a.producer.skip(1), // Skips the operation triggered due to the array not being empty
+                        fromArray: a.producer.skip(1), // Skips the operation triggered due to the array not being empty
                         when: {
                             a.removeAtIndex(0)
                         },
@@ -343,7 +343,7 @@ class ReactiveArraySpec: QuickSpec {
                 
                 it("signals the operations") {
                     waitForOperation(
-                        fromSignal: array.signal,
+                        fromArray: array.signal,
                         when: {
                             array.insert(5, atIndex: 1)
                         },
@@ -360,7 +360,7 @@ class ReactiveArraySpec: QuickSpec {
                 
                 it("signals the operations") {
                     waitForOperation(
-                        fromSignal: array.signal,
+                        fromArray: array.signal,
                         when: {
                             array.append(5)
                         },
@@ -376,7 +376,7 @@ class ReactiveArraySpec: QuickSpec {
                 
                 it("signals the operations") {
                     waitForOperation(
-                        fromSignal: array.signal,
+                        fromArray: array.signal,
                         when: {
                             array[1] = 5
                         },
@@ -393,7 +393,7 @@ class ReactiveArraySpec: QuickSpec {
                 
                 it("signals the operations") {
                     waitForOperation(
-                        fromSignal: array.signal,
+                        fromArray: array.signal,
                         when: {
                             array.removeAtIndex(1)
                         },
